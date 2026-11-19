@@ -1,0 +1,77 @@
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#0a1426;color:#eaf2ff}*{box-sizing:border-box}body{margin:0}main{max-width:1150px;margin:auto;padding:28px 24px}header{display:flex;justify-content:space-between;align-items:center;gap:20px}h1{margin:4px 0;font-size:clamp(28px,4vw,44px)}h2{font-size:16px;margin:0 0 8px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.13em;color:#9cc8ff}.intro,.foot{line-height:1.5;color:#b9cae0}.status,.workspace{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;background:#14243d;border:1px solid #314c70;border-radius:14px;padding:16px;margin:18px 0}#state{padding:10px 16px;border-radius:999px;background:#5a3c25;color:#ffe2aa;white-space:nowrap}#state.active{background:#21463d;color:#b4f8db}.board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}button,.empty{min-height:92px;border:2px solid #3b567a;border-radius:14px;background:#182c49;color:#eaf2ff;text-align:left;padding:14px;font:700 16px system-ui,sans-serif}button{cursor:default;position:relative;overflow:hidden}button::after{content:'';position:absolute;left:0;bottom:0;width:var(--progress,0%);height:7px;background:#80c8ff}button.looking,button:focus-visible{outline:3px solid #a3ddff;outline-offset:2px}button small{display:block;color:#a9c0da;font-size:12px;font-weight:400;margin-top:6px}.empty{border-style:dashed;color:#869db8;font-size:13px}.workspace>div{min-width:230px;flex:1}.workspace p,.workspace ol{margin:6px 0;line-height:1.5}#text{white-space:pre-wrap;overflow-wrap:anywhere;color:#a9f1d2}.foot{font-size:13px}@media(max-width:720px){.board{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start;flex-direction:column}main{padding:18px 14px}button,.empty{min-height:80px}}
+
+.pose-board {
+  position: relative;
+  display: block;
+  height: clamp(375px, 55vh, 520px);
+}
+.pose-board button {
+  position: absolute;
+  min-height: 0;
+  padding: 4px 8px;
+  font-size: clamp(12px, 1.5vw, 16px);
+  overflow-wrap: anywhere;
+}
+.pose-board button small {
+  display: none;
+}
+.pose-marker {
+  position: absolute;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #0a1426;
+  border-radius: 50%;
+  background: #a9f1d2;
+  box-shadow: 0 0 0 2px #a9f1d2;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.calibrating-gaze button {
+  visibility: hidden;
+}
+.calibration-dot {
+  width: 24px;
+  height: 24px;
+  background: #ffe2aa;
+  box-shadow: 0 0 0 3px #ffe2aa;
+}
+.pose-board .gaze-confirm.confirmation-ready {
+  background: #21463d;
+  border-color: #a9f1d2;
+}
+.one-eye-marker {
+  background: transparent;
+  border: 2px dashed #ffe2aa;
+  box-shadow: 0 0 0 1px #0a1426;
+}
+#aim-tools button {
+  min-height: 44px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+#aim-tools button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+body[data-preview="true"] .status {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  height: 108px;
+}
+@media (max-width: 720px) {
+  body[data-preview="true"] .status {
+    grid-template-columns: 1fr 1fr;
+    height: 164px;
+    gap: 6px 16px;
+  }
+  body[data-preview="true"] #message {
+    grid-column: 1 / -1;
+  }
+}
+body[data-preview="true"] #aim-result {
+  grid-column: 1 / -1;
+  color: #a9f1d2;
+}

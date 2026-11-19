@@ -1,5 +1,8 @@
 # Contributor Covenant Code of Conduct
 
+> Upstream reference from Wega Labs. The contacts and release process below apply to the upstream Fovea project. For this derivative, use the repository where this preview is published.
+
+
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our community a

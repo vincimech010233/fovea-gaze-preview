@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fovea · Simulación ocular</title>
+  <link rel="stylesheet" href="/simulation.css">
+  <script src="/simulation.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">FOVEA · ENTORNO DE PRUEBA</p><h1 id="title">Control ocular simulado</h1></div><strong id="state" role="status">En pausa</strong></header>
+    <p class="intro" id="intro">Esta pantalla no usa la cámara. El puntero dentro de cada casilla representa una mirada artificial. Mantén el puntero un segundo para elegir.</p>
+    <p id="mode-control"><label><input id="head-mode" type="checkbox" checked> Cabeza y parpadeo simulados</label></p>
+    <p id="instructions">Apunta con el puntero. Para confirmar, mantén Espacio de 0,65 a 1,5 s y suelta. Esc detiene la simulación.</p>
+    <div class="status"><span id="message">Esperando señal simulada.</span><span>Candidata: <strong id="candidate">ninguna</strong></span><span id="signal">Sin señal</span><span>Arrastre: <strong id="dragging">liberado</strong></span><span id="aim-result" hidden></span></div>
+    <p id="aim-tools" hidden><button id="aim-shortcut" type="button" disabled>Medir puntería</button></p>
+    <div id="interaction">
+    <div id="board" class="board" aria-label="Panel de simulación">
+      <button data-target="resume">Reanudar<small>activar simulación</small></button>
+      <button data-target="pause">Pausar<small>liberar y detener</small></button>
+      <button data-target="cancel">Cancelar<small>anular o soltar</small></button>
+      <button data-target="confirm">Confirmar<small>ejecutar candidata</small></button>
+      <button data-target="aim_test" hidden>Probar puntería</button>
+      <button data-target="recalibrate">Recalibrar<small>centrar cabeza</small></button>
+      <button data-target="double_click">Doble clic</button>
+      <button data-target="document">Clic<small>elegir objetivo</small></button>
+      <button data-target="drag:start">Iniciar arrastre<small>requiere confirmación</small></button>
+      <button data-target="drag:drop">Soltar arrastre<small>requiere confirmación</small></button>
+      <button data-target="scroll:up">Subir<small>scroll simulado</small></button>
+      <button data-target="scroll:down">Bajar<small>scroll simulado</small></button>
+      <button data-target="scroll:left">Izquierda<small>scroll simulado</small></button>
+      <button data-target="scroll:right">Derecha<small>scroll simulado</small></button>
+      <button data-target="key:ñ">Tecla ñ<small>texto simulado</small></button>
+      <button data-target="key:a">Tecla a<small>texto simulado</small></button>
+      <button data-target="key:Enter">Intro<small>texto simulado</small></button>
+      <button data-target="key:Backspace">Borrar<small>texto simulado</small></button>
+      <div class="empty">Zona sin objetivo</div>
+    </div>
+    <section class="workspace" aria-label="Teclado simulado">
+      <div><h2>Teclado por grupos</h2><p>Elige un grupo y confirma. Después elige una letra y confirma. Las sugerencias son locales.</p><p>Modificadores: <strong id="modifiers">ninguno</strong> · Atajo simulado: <span id="shortcut">ninguno</span></p>
+        <div class="board" id="keyboard">
+          <button data-target="kbd:slot0"><span>Grupo 1</span></button><button data-target="kbd:slot1"><span>Grupo 2</span></button><button data-target="kbd:slot2"><span>Grupo 3</span></button><button data-target="kbd:slot3"><span>Grupo 4</span></button>
+          <button data-target="kbd:slot4"><span>—</span></button><button data-target="kbd:slot5"><span>—</span></button><button data-target="kbd:slot6"><span>—</span></button><button data-target="kbd:slot7"><span>—</span></button>
+          <button data-target="kbd:predict0"><span>—</span></button><button data-target="kbd:predict1"><span>—</span></button><button data-target="kbd:predict2"><span>—</span></button><button data-target="kbd:back">Grupos</button>
+          <button data-target="kbd:shift">Mayúscula</button><button data-target="kbd:ctrl">Ctrl</button><button data-target="kbd:alt">Alt</button><button data-target="kbd:space">Espacio</button><button data-target="kbd:backspace">Borrar</button>
+          <button data-target="kbd:enter">Intro</button>
+        </div>
+      </div>
+    </section>
+    </div>
+    <section class="workspace" aria-label="Resultado simulado">
+      <div><h2>Resultado de prueba</h2><p>Clics: <strong id="clicks">0</strong> · Scroll horizontal: <strong id="scrollX">0</strong> · vertical: <strong id="scrollY">0</strong></p><p>Texto: <span id="text">—</span></p></div>
+      <div><h2>Últimas acciones</h2><ol id="history"><li>Ninguna.</li></ol></div>
+    </section>
+    <p class="foot">Si sales del panel o se interrumpe la señal, se pausa y se libera cualquier arrastre simulado. Regresa a Reanudar para continuar.</p>
+  </main>
+</body>
+</html>

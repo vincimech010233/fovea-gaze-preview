@@ -175,28 +175,40 @@ def estimate_head_pose(
     positive roll. ``Webcam(mirror=True)`` flips the frame before inference, so
     yaw follows the mirrored frame the engine sees. Angles are in ``(-180, 180]``.
     """
+    return try_estimate_head_pose(landmarks, image_w, image_h) or (0.0, 0.0, 0.0)
+
+
+def try_estimate_head_pose(
+    landmarks: Sequence[Any], image_w: float, image_h: float
+) -> tuple[float, float, float] | None:
+    """Distinguish neutral pose from a pose that could not be solved."""
     ids = (NOSE, CHIN, LEFT_EYE_OUTER_FOR_POSE, RIGHT_EYE_OUTER_FOR_POSE, MOUTH_LEFT, MOUTH_RIGHT)
     if any(i >= len(landmarks) for i in ids) or image_w < 2 or image_h < 2:
-        return 0.0, 0.0, 0.0
+        return None
     try:
         import cv2
     except Exception:
-        return 0.0, 0.0, 0.0
+        return None
 
     image_points = np.array(
         [[_xy(landmarks, i)[0] * image_w, _xy(landmarks, i)[1] * image_h] for i in ids],
         dtype=np.float64,
     )
+    if not np.isfinite(image_points).all():
+        return None
     camera = np.array(
         [[image_w, 0.0, image_w / 2.0], [0.0, image_w, image_h / 2.0], [0.0, 0.0, 1.0]],
         dtype=np.float64,
     )
     dist = np.zeros((4, 1), dtype=np.float64)
-    ok, rvec, _tvec = cv2.solvePnP(
-        _FACE_3D, image_points, camera, dist, flags=cv2.SOLVEPNP_ITERATIVE
-    )
-    if not ok:
-        return 0.0, 0.0, 0.0
+    try:
+        ok, rvec, tvec = cv2.solvePnP(
+            _FACE_3D, image_points, camera, dist, flags=cv2.SOLVEPNP_ITERATIVE
+        )
+    except cv2.error:
+        return None
+    if not ok or not np.isfinite(rvec).all() or not np.isfinite(tvec).all():
+        return None
     rotation, _ = cv2.Rodrigues(rvec)
     sy = float(np.sqrt(rotation[0, 0] ** 2 + rotation[1, 0] ** 2))
     if sy < 1e-6:
@@ -248,12 +260,14 @@ def extract_features(
     min_face_width: float,
     max_yaw_deg: float,
     blendshapes: Mapping[str, float] | None = None,
+    *,
+    head_pose: tuple[float, float, float] | None = None,
 ) -> GazeFeatures:
     left = extract_eye(landmarks, LEFT_OUTER, LEFT_INNER, LEFT_UPPER, LEFT_LOWER, LEFT_IRIS_RING)
     right = extract_eye(
         landmarks, RIGHT_OUTER, RIGHT_INNER, RIGHT_UPPER, RIGHT_LOWER, RIGHT_IRIS_RING
     )
-    yaw, pitch, roll = estimate_head_pose(landmarks, image_w, image_h)
+    yaw, pitch, roll = head_pose or estimate_head_pose(landmarks, image_w, image_h)
     width = face_width(landmarks)
     # Landmark x coordinates are normalized by image width. Convert face width to a
     # fraction of the shorter frame side so the distance gate is aspect-ratio invariant.

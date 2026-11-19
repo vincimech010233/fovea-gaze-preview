@@ -1,5 +1,8 @@
 # Contributing to Fovea
 
+> Upstream reference from Wega Labs. The contacts and release process below apply to the upstream Fovea project. For this derivative, use the repository where this preview is published.
+
+
 Welcome. Fovea turns local camera observations into a stable, platform-neutral gaze event
 stream. The project treats privacy, accessibility, and an additive protocol boundary as product
 requirements, not follow-up work.

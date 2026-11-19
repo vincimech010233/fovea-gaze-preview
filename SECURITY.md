@@ -1,5 +1,8 @@
 # Security Policy
 
+> Upstream reference from Wega Labs. The contacts and release process below apply to the upstream Fovea project. For this derivative, use the repository where this preview is published.
+
+
 ## Reporting a vulnerability
 
 Please report vulnerabilities privately through [GitHub Security Advisories][report]. Do not
